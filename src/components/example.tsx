@@ -3,24 +3,27 @@ import Entity, { EntityContext } from "../hooks/entityContext";
 import useBehavior from "../hooks/useBehavior";
 import World from "../hooks/worldContext";
 
-export function BehaviorOne() {
+function BehaviorOne() {
   const entity = useContext(EntityContext);
-  const { onUpdate, onStart, onDetached, attach } = useBehavior(
+  console.log(entity);
+  const { onUpdate, onStart, onDetached, create } = useBehavior(
     "MyBehavior",
     entity
   );
-  onUpdate((dt: number) => {});
+  onUpdate((dt) => {});
   onStart(() => {});
   onDetached(() => {});
-  useEffect(() => {
-    attach();
-  }, []);
+  create();
+  console.log("asasdg");
+  return <></>;
 }
 
 export default function Example() {
   return (
     <World name={"MyWorld"}>
-      <Entity></Entity>
+      <Entity>
+        <BehaviorOne />
+      </Entity>
     </World>
   );
 }

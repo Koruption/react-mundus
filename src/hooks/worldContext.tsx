@@ -1,10 +1,17 @@
 // import { useEffect } from "react";
 
-import React, { createContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Universe, World as _World } from "../lib/world";
 
-export const UniverseContext = createContext<Universe>(null!);
+export const UniverseContext = createContext<Universe>(Universe.instance);
 export const WorldContext = createContext<_World<any>>(null!);
+
 export default function World<T = any>({
   name,
   children,
@@ -14,17 +21,17 @@ export default function World<T = any>({
   children?: React.ReactNode;
   schema?: any;
 }) {
-  const [world, setWorld] = useState<_World<T>>(null!);
-  const [universe, setUniverse] = useState<Universe>(null!);
+  const universe = useContext(UniverseContext);
   useEffect(() => {
-    setUniverse(Universe.instance);
-    const world = universe.create<T>(name);
-    setWorld(world);
+    return () => {
+      universe.destroy(name);
+    };
   }, []);
-
   return (
     <UniverseContext.Provider value={universe}>
-      <WorldContext.Provider value={world}>{children}</WorldContext.Provider>
+      <WorldContext.Provider value={universe.create<T>(name)}>
+        {children}
+      </WorldContext.Provider>
     </UniverseContext.Provider>
   );
 }

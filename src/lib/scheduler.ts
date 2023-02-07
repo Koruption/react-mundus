@@ -38,7 +38,7 @@ export class BehaviorScheduler
     requestPacket: EventPacket<ScheduleChangeRequest>
   ) {
     const { data } = requestPacket;
-    data ? this.addChange(data) : undefined;
+    if (data) this.addChange(data);
   }
   buildQueue() {
     const entities = this.world.Store.entities;

@@ -24,6 +24,11 @@ export class ECSStore<T> {
     this.entityIds = new EntityIdManager<number>(0, (id) => ++id);
   }
 
+  flush() {
+    this.components.clear();
+    this.entities.clear();
+  }
+
   addEntity(components: Partial<T> = {}) {
     const eid = this.entityIds.generateId();
     const componentIndices: ComponentIndex = [];
@@ -172,6 +177,13 @@ export class EntityBehaviorStore<T> {
   }
   private generateEID() {
     return (this.entityIds += 1);
+  }
+
+  flush() {
+    this.components.clear();
+    this._behaviors.clear();
+    this.entities.clear();
+    this.entityIds = 0;
   }
 
   create() {

@@ -61,7 +61,7 @@ export class Processor {
         try {
           const behavior =
             this.world.Store.behaviors.get(behaviorType)![behaviorIndex];
-          behavior.enabled ? behavior.update(deltaTime) : undefined;
+          if (behavior.enabled) behavior.update(deltaTime);
           spliceIndex += 1;
         } catch (err) {
           // update on behavior not implemented so we'll prune it from the
