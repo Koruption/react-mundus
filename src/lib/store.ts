@@ -272,20 +272,21 @@ export class EntityBehaviorStore<T> {
       this._components.get(component.name)!.length - 1,
       component.name,
     ]);
+    component.setIndex(this._components.get(component.name)!.length - 1)
+    component.setParent(eid)
     return component;
   }
 
   private addRuntimeComponent<K = any>(
     eid: number,
     component: ComponentProps<K>
-  ) {
-    const newComponent = new EntityComponent<K>(
+  ) {;
+    ;
+    return this._addComponent(eid, new EntityComponent<K>(
       component.name,
       component.props,
       this.world.name
-    );
-    this._addComponent(eid, newComponent);
-    return newComponent;
+    ));
   }
 
   addComponent<K = any>(

@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import ExampleTwo from "./components/exampleTwo";
+import Example from "./example/components/Example";
 
 function App() {
-  return <ExampleTwo />;
+  return <Example />;
 }
 
 export default App;
