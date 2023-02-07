@@ -5,14 +5,14 @@ import { Universe, World as _World } from "../lib/world";
 
 export const UniverseContext = createContext<Universe>(null!);
 export const WorldContext = createContext<_World<any>>(null!);
-export default function World<T>({
+export default function World<T = any>({
   name,
   children,
   schema,
 }: {
   name: string;
-  children: React.ReactNode;
-  schema: any;
+  children?: React.ReactNode;
+  schema?: any;
 }) {
   const [world, setWorld] = useState<_World<T>>(null!);
   const [universe, setUniverse] = useState<Universe>(null!);

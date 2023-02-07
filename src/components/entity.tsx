@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { WorldContext } from "../hooks/world";
+import { WorldContext } from "../hooks/worldContext";
 import { World } from "../lib/world";
 
 export default function MyEntity() {

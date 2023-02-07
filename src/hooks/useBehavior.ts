@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react'
-import { EntityBehavior } from '../lib/entities'
+import { useEffect, useMemo, useState } from 'react'
+import { Entity, EntityBehavior } from '../lib/entities'
 import { Universe } from '../lib/world'
 
-export default function useBehavior (behaviorName: string) {
+export default function useBehavior (behaviorName: string, entity: Entity) {
   const [_update, setUpdate] = useState<(dt: number) => void | Promise<void>>()
   const [_onStart, setOnStart] = useState<() => void | Promise<void>>()
   const [_onDetached, setOnDetached] = useState<() => void | Promise<void>>()
-  useEffect(() => {
+
+  const attach = () => {
     const behavior = new EntityBehavior(
       Universe.instance.active!.name,
-      1,
-      1,
+      entity.eid,
+      0, // this gets overridden by the store
       behaviorName
     )
     if (_update) {
@@ -22,18 +23,13 @@ export default function useBehavior (behaviorName: string) {
     if (_onDetached) {
       behavior.onDetached = _onDetached
     }
-  }, [])
+    entity.behaviors.addBehavior(behavior)
+  }
 
   return {
     onUpdate: setUpdate,
     onStart: setOnStart,
-    onDetached: setOnDetached
+    onDetached: setOnDetached,
+    attach: attach
   }
-}
-
-export function SomeComponent () {
-  const { onUpdate, onStart, onDetached } = useBehavior('MyBehavior')
-  onUpdate((dt: number) => {})
-  onStart(() => {})
-  onDetached(() => {})
 }
