@@ -1,46 +1,50 @@
-# Getting Started with Create React App
+# Overview
+Mundus is an ECS system developed entirely in typescript with a layer of glue for React, but the system can be used as a standalone without React as none of the Mundus core depends on React. It was built for efficiency, but some tradeoffs were made to create a better developer experience. This is not an entirely complete piece of software, but it should be good enough to build on top of! Lastly, you'll notice that some aspects of Mundus, such as behaviors, have two ways of implementing them, either by react components or class inheritance; this is because most game developers coming to the react ecosystem are used to the former rather than the latter, so I provided the choice to do either.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Example 
+```ts
+type Camera = {
+  fov: number;
+  aspect?: number;
+  near?: number;
+  far?: number;
+  aperture: number;
+};
 
-## Available Scripts
+export default function ExampleTwo() {
+  const [counter, setCounter] = useState<number>(0);
+  const handleClick = () => {
+    setCounter(counter + 1);
+    console.log(Universe.instance.active);
+  };
 
-In the project directory, you can run:
+  return (
+    <Mundus.World name="MyWorld" sleepAfter={10000}>
+      <>
+        <button onClick={handleClick}> Counter: {counter} </button>
+        <Container count={counter} />
+      </>
+      <Mundus.Entity>
+        <StatsTracker />
+        <Mundus.Behavior behavior={MousePositionTracker} />
+        <Mundus.Component<Camera>
+          name="Camera"
+          fov={100}
+          aperture={1.2}
+          aspect={1 / 3}
+        />
+        <PlayerStats />
+      </Mundus.Entity>
+      <Mundus.Entity>
+        <Mundus.Behavior behavior={MousePositionTracker} />
+        <Mundus.Component<Camera> name="Camera" fov={100} aperture={1.2} />
+        <PlayerStats />
+      </Mundus.Entity>
+    </Mundus.World>
+  );
+}
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+export function Container({ count }: { count: number }) {
+  return <>Count: {count}</>;
+}
+```
