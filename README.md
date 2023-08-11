@@ -1,6 +1,11 @@
 # Overview
 Mundus is an ECS system developed entirely in typescript with a layer of glue for React, but the system can be used as a standalone without React as none of the Mundus core depends on React. It was built for efficiency, but some tradeoffs were made to create a better developer experience. This is not an entirely complete piece of software, but it should be good enough to build on top of! Lastly, you'll notice that some aspects of Mundus, such as behaviors, have two ways of implementing them, either by react components or class inheritance; this is because most game developers coming to the react ecosystem are used to the former rather than the latter, so I provided the choice to do either.
 
+![Mundus Logo](https://github.com/Koruption/react-mundus/blob/master/public/PlanetGif.gif)
+
+# Benchmarks
+Currently, Mundus can reach around 40fps at 30,000 and 20fps at 100,000 object instances rendered and updating with behaviors. Note that these are best cases. Test cases were created using [three.js](https://threejs.org/) without any graphical optimizations such as shared materials. In general, fps is more unstable than I would like, but it should be good enough for most use cases. 
+
 # Example 
 ```ts
 type Camera = {
